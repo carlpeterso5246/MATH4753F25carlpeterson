@@ -1,0 +1,21 @@
+---
+title: "mycltb"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mycltb}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MATH4753F25carlpeterson)
+
+mycltb(n=10,iter=10000,p=0.7)
+```

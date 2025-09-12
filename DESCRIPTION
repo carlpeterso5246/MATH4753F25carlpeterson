@@ -9,10 +9,18 @@ Authors@R: c(
       role = c("aut", "cre")
     )
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
-License: What license is it under?
+Description: Package from Applied Statistical Methods (MATH 4753). Package contains functions from class and assignments.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/carlpeterso5246/MATH4753F25carlpeterson
 BugReports: https://github.com/carlpeterso5246/MATH4753F25carlpeterson/issues
+RoxygenNote: 7.3.2
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Depends: 
+    R (>= 3.5)
