@@ -16,3 +16,4 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/carlpeterso5246/MATH4753F25carlpeterson
 BugReports: https://github.com/carlpeterso5246/MATH4753F25carlpeterson/issues
+RoxygenNote: 7.3.2
