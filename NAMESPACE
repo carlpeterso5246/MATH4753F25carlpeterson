@@ -14,3 +14,5 @@ importFrom(graphics,hist)
 importFrom(graphics,layout)
 importFrom(graphics,mtext)
 importFrom(graphics,par)
+export(myfirstfunction)
+
