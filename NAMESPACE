@@ -2,6 +2,7 @@
 
 export(birthday)
 export(mybin)
+export(myboot2)
 export(mycltb)
 export(myfirstfunction)
 export(myncurve)
@@ -14,5 +15,3 @@ importFrom(graphics,hist)
 importFrom(graphics,layout)
 importFrom(graphics,mtext)
 importFrom(graphics,par)
-export(myfirstfunction)
-
