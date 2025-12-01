@@ -15,10 +15,10 @@ myboot2(iter = 10000, x, fun = "mean", alpha = 0.05, ...)
 
 \item{alpha}{significance level used to form confidence intervals}
 
-\item{...}{}
+\item{...}{other arguments passed to histogram function}
 }
 \value{
-list with confidence interval, the statistic funciton, original data sampled, bootstrapped statistics over each iteration, and a graph with the statistics and confidence intervals on it.
+list with confidence interval, the statistic function, original data sampled, bootstrapped statistics over each iteration, and a graph with the statistics and confidence intervals on it.
 }
 \description{
 bootstrapping function

@@ -7,7 +7,7 @@
 #' @returns bar plot of probability of number of successes
 #' @export
 #'
-#' @examples
+#' @examples mybin(n=15)
 #' mybin(iter=500,n=10,p=0.5)
 mybin=function(iter=100,n=10, p=0.7){
   # make a matrix to hold the samples

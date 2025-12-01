@@ -20,5 +20,6 @@ bar plot of probability of number of successes
 sampling function
 }
 \examples{
+mybin(n=15)
 mybin(iter=500,n=10,p=0.5)
 }

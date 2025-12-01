@@ -4,9 +4,9 @@
 #' @param x numeric vector. Sample data to bootstrap
 #' @param fun statistic to compute ('mean','var',etc.)
 #' @param alpha significance level used to form confidence intervals
-#' @param ...
+#' @param ... other arguments passed to histogram function
 #'
-#' @returns list with confidence interval, the statistic funciton, original data sampled, bootstrapped statistics over each iteration, and a graph with the statistics and confidence intervals on it.
+#' @returns list with confidence interval, the statistic function, original data sampled, bootstrapped statistics over each iteration, and a graph with the statistics and confidence intervals on it.
 #' @export
 #'
 #' @examples \dontrun{
@@ -39,7 +39,7 @@ myboot2<-function(iter=10000,x,fun="mean",alpha=0.05,...){
   para=hist(xstat,freq=FALSE,las=1,main="Histogram of Bootstrap sample statistics",...)
 
   #mat will be a matrix that contains the data, this is done so that I can use apply()
-  mat=matrix(x,nr=length(x),nc=1,byrow=TRUE)
+  mat=matrix(x,nrow=length(x),ncol=1,byrow=TRUE)
 
   #pte is the point estimate
   #This uses whatever fun is
