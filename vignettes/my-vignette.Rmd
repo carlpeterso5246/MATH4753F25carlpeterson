@@ -17,3 +17,189 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(MATH4753F25carlpeterson)
 ```
+
+
+# Derivation
+
+$$
+A:\;\{\text{Two or more people have the same birthday}\}
+$$
+
+$$
+A^c:\;\{\text{Each student has a different birthday}\}
+$$
+We know that the sum of all probabilities is equal to 1
+$$
+P(A) + P(A^c) = 1
+$$
+$P(A^c)$ represents the probability that each successive student is assigned a birthday different from all the previous ones, leaving one fewer choice each time. This is a mathematical representation of that: 
+$$
+P(A^c) = \frac{365 \cdot 364 \cdot 363 ... (365-n+1)}{365^n}
+$$
+Plug the $P(A^c)$ value into the equation:
+$$
+1 = P(A) + \frac{365 \cdot 364 \cdot 363 ... (365-n+1)}{365^n}
+$$
+Rearrange:
+$$
+P(A) = 1 - \frac{365 \cdot 364 \cdot 363 ... (365-n+1)}{365^n}
+$$
+
+
+<br>
+
+# Reformulation
+
+<img src="figures/myBdayAlg.jpg" width="500">
+
+<br>
+
+# Body of Function
+```{r}
+birthday <- function(n){
+1 - exp(lchoose(365,n) + lfactorial(n) - n*log(365))
+}
+```
+
+<br>
+
+# Run it
+```{r}
+birthday(n = 20:25)
+```
+
+<br>
+
+# mycltb() body 
+
+```{r}
+mycltb=function(n,iter,p=0.5,...){
+
+  ## r-random sample from the Binomial
+  y=rbinom(n*iter,size=n,prob=p)
+
+  ## Place these numbers into a matrix
+  ## The columns will correspond to the iteration and the rows will equal the sample size n
+  data=matrix(y,nr=n,nc=iter,byrow=TRUE)
+
+  ## apply the function mean to the columns (2) of the matrix
+  ## these are placed in a vector w
+  w=apply(data,2,mean)
+
+  ## We will make a histogram of the values in w
+  ## How high should we make y axis?
+  ## All the values used to make a histogram are placed in param (nothing is plotted yet)
+  param=hist(w,plot=FALSE)
+
+  ## Since the histogram will be a density plot we will find the max density
+  ymax=max(param$density)
+
+  ## To be on the safe side we will add 10% more to this
+  ymax=1.1*ymax
+
+  ## Now we can make the histogram
+  ## freq=FALSE means take a density
+  hist(w,freq=FALSE,  ylim=c(0,ymax),
+       main=paste("Histogram of sample mean","\n", "sample size= ",n,sep=""),
+       xlab="Sample mean",...)
+
+  ## add a density curve made from the sample distribution
+  #lines(density(w),col="Blue",lwd=3) # add a density plot
+  ## Add a theoretical normal curve
+  curve(dnorm(x,mean=n*p,sd=sqrt(p*(1-p))),add=TRUE,col="Red",lty=2,lwd=3)
+
+}
+
+```
+
+## Run it
+
+```{r}
+mycltb(n = 10, iter = 10000, p = 0.3)
+```
+
+<br>
+
+# myboot2() body
+
+```{r}
+myboot2<-function(iter=10000,x,fun="mean",alpha=0.05,...){
+
+  #Notice where the ... is repeated in the code
+  n=length(x)   #sample size
+
+  #Now sample with replacement
+  y=sample(x,n*iter,replace=TRUE) #A
+
+  # Make a matrix with all the resampled values
+  rs.mat=matrix(y,nrow=n,ncol=iter,byrow=TRUE)
+  xstat=apply(rs.mat,2,fun)
+  # xstat is a vector and will have iter values in it
+
+  ci=quantile(xstat,c(alpha/2,1-alpha/2)) #B
+  # Nice way to form a confidence interval
+
+  # A histogram follows
+  # The object para will contain the parameters used to make the histogram
+  para=hist(xstat,freq=FALSE,las=1,main="Histogram of Bootstrap sample statistics",...)
+
+  #mat will be a matrix that contains the data, this is done so that I can use apply()
+  mat=matrix(x,nrow=length(x),ncol=1,byrow=TRUE)
+
+  #pte is the point estimate
+  #This uses whatever fun is
+  pte=apply(mat,2,fun)
+  abline(v=pte,lwd=3,col="Black")# Vertical line
+  segments(ci[1],0,ci[2],0,lwd=4)      #Make the segment for the ci
+  text(ci[1],0,paste("(",round(ci[1],2),sep=""),col="Red",cex=3)
+  text(ci[2],0,paste(round(ci[2],2),")",sep=""),col="Red",cex=3)
+
+  # plot the point estimate 1/2 way up the density
+  text(pte,max(para$density)/2,round(pte,2),cex=3)
+
+  # added xstat to the list!!!
+  return(list(ci=ci,fun=fun,x=x,xstat=xstat))# Some output to use if necessary
+}
+```
+
+## Run it
+
+```{r}
+sam <- rnorm(25, mean = 25, sd = 10)
+test <- myboot2(x = sam, fun = mean, alpha = 0.05)
+```
+
+<br>
+
+# myncurve() body
+
+```{r}
+myncurve = function(mu, sigma,a){
+  # make the curve for a normal distribution
+  curve(dnorm(x,mean=mu,sd=sigma), xlim = c(mu-3*sigma, mu + 3*sigma))
+
+  # create curves for shaded area
+  xcurve <- seq(mu-4*sigma,a,length=10000)
+  ycurve <- dnorm(xcurve,mu,sigma)
+
+  # make the shaded region
+  polygon(x=c(mu-4*sigma,xcurve,a),y=c(0,ycurve,0),col='Purple')
+
+  # calculate probability
+  probability <- round(pnorm(a,mu,sigma),4)
+  # print the area/probability on the graph
+  title(paste('Area = ',probability))
+
+
+  list(mu = mu, sigma = sigma, probability = probability)
+}
+
+```
+
+## Run it
+
+```{r}
+myncurve(7,6,2)
+```
+
+
